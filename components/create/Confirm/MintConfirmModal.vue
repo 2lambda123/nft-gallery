@@ -43,7 +43,9 @@
         <PriceItem :nft="extendedInformation" />
       </div>
       <div class="py-5">
-        <div class="is-flex is-justify-content-space-between px-6">
+        <div
+          class="is-flex is-justify-content-space-between px-6"
+          data-testid="mint-modal-confirm-button">
           <AutoTeleportActionButton
             :amount="totalFee + networkFee"
             :actions="autoTeleportActions"

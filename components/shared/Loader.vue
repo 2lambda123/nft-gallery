@@ -1,6 +1,6 @@
 <template>
   <NeoLoading v-model:active="isLoading" is-full-page :can-cancel="canCancel">
-    <div class="loading-container">
+    <div class="loading-container" data-testid="loader-container">
       <figure>
         <img class="loading-icon" :src="placeholder" />
         <figcaption v-if="status" class="loading-text">

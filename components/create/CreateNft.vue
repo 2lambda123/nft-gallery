@@ -72,6 +72,7 @@
             {{ $t('mint.nft.collection.message') }}
           </p>
           <ChooseCollectionDropdown
+            data-testid="create-nft-select-collection-dropdown"
             full-width
             no-shadow
             class="mt-3"

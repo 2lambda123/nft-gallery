@@ -5,7 +5,8 @@
 </template>
 
 <script lang="ts">
-import { mnemonicGenerate } from '@polkadot/util-crypto'
+//import { mnemonicGenerate } from '@polkadot/util-crypto'
+import { stringToU8a, u8aToHex } from '@polkadot/util'
 import keyring from '@polkadot/ui-keyring'
 import { ss58Of } from '@/utils/config/chain.config'
 import { useIdentityStore } from '@/stores/identity'
@@ -18,15 +19,30 @@ export default {
     const mockAddress = ref(false)
 
     onMounted(() => {
-      const mnemonic = mnemonicGenerate(12)
-      const { pair } = keyring.addUri(mnemonic, '', {
+      //Dev Seed
+      /*const mnemonic =
+        'bottom drive obey lake curtain smoke basket hold race lonely fit walk//KodaDev'*/
+      //Real Seed
+      //i've used the testing acc seed only locally for testing purposes:
+      const mnemonic = ''
+      const { pair } = keyring.addUri(mnemonic, '1234', {
         name: 'mnemonic acc',
       })
 
       // TODO: check 'loadAll' error, approx 1 in 10 tests fail without this
       keyring.setSS58Format(ss58Of(urlPrefix.value))
-      keyring.addPair(pair, '')
+      keyring.addPair(pair, '1234')
+      keyring.saveAccount(pair, '1234')
+      const isLocked = pair.isLocked
+      console.log('Locking Status:', isLocked)
       const account = pair.address
+      const message = stringToU8a('this is our message')
+      const signature = pair.sign(message)
+      const isValid = pair.verify(message, signature, pair.publicKey)
+
+      console.log(
+        `The signature ${u8aToHex(signature)}, is ${isValid ? '' : 'in'}valid`,
+      )
 
       localStorage.setItem('kodaauth', account)
       identityStore
